@@ -1,0 +1,18 @@
+# @package _global_
+defaults:
+  - /train/icassp/heat_conditioning/base
+
+experiment: HEAT_AMI-speaker-continuity
+
+data:
+  train_cutsets: ${oc.env:MANIFEST_DIR}/ami-sdm_train_sc_cutset_30s.jsonl.gz
+  dev_cutsets: ${oc.env:MANIFEST_DIR}/ami-sdm_dev_sc_cutset.jsonl.gz
+  eval_cutsets: ${oc.env:MANIFEST_DIR}/ami-sdm_test_sc_cutset.jsonl.gz
+  use_heat_diar: true
+  heat_assignment_method: "speaker-continuity" 
+
+training:
+  metric_for_best_model: tcorc_wer
+  train_metrics_list: ["tcorc_wer"]
+  eval_metrics_list: ["tcorc_wer"]
+  eval_delay: 1

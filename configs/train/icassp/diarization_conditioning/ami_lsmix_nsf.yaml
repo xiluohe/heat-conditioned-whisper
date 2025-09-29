@@ -1,0 +1,29 @@
+# @package _global_
+defaults:
+  - /train/icassp/diarization_conditioning/base
+
+experiment: DICOW_AMI-LSMIX-NSF
+
+data:
+  train_cutsets:
+  - ${oc.env:MANIFEST_DIR}/notsofar_train_sc_cutset_30s.jsonl.gz
+  - ${oc.env:MANIFEST_DIR}/ami-sdm_train_sc_cutset_30s.jsonl.gz
+  - ${oc.env:MANIFEST_DIR}/libri2mix_both_100_train_sc_cutset_30s.jsonl.gz
+  - ${oc.env:MANIFEST_DIR}/libri2mix_both_360_train_sc_cutset_30s.jsonl.gz
+  dataset_weights:
+    - 3
+    - 3
+    - 1
+    - 1
+  dev_cutsets: ${oc.env:MANIFEST_DIR}/ami-sdm_dev_sc_cutset.jsonl.gz
+  eval_cutsets: ${oc.env:MANIFEST_DIR}/ami-sdm_test_sc_cutset.jsonl.gz
+  
+training:
+  metric_for_best_model: tcorc_wer
+  train_metrics_list: ["tcorc_wer"]
+  eval_metrics_list: ["tcorc_wer"]
+  eval_delay: 1
+
+model:
+  ctc_weight: 0.3
+  

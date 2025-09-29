@@ -1,0 +1,23 @@
+# @package _global_
+
+experiment: "ami_heat-speaker-continuity_diarizendiar_beamdecode"
+
+model:
+  whisper_model: "openai/whisper-large-v3-turbo"
+  reinit_from: "${oc.env:PRETRAINED_MODEL_PATH}"
+data:
+  eval_cutsets: ${oc.env:MANIFEST_DIR}/ami-sdm_test_sc_cutset.jsonl.gz
+  eval_diar_cutsets: ${oc.env:SRC_ROOT}/diar_exp/diarizen_large/diarized_cutsets/ami-sdm_test_sc_cutset.jsonl.gz
+  audio_path_prefix: ${oc.env:AUDIO_PATH_PREFIX}
+  audio_path_prefix_replacement: ${oc.env:AUDIO_PATH_PREFIX_REPLACEMENT}
+  use_heat_diar: true
+  heat_assignment_method: "speaker-continuity"
+  diar_type: "hard"
+training:
+  decode_only: true
+  eval_metrics_list: [ "tcorc_wer" ]
+  generation_num_beams: 5
+decoding:
+  decoding_ctc_weight: 0.2
+  condition_on_prev: false
+  length_penalty: 0.1

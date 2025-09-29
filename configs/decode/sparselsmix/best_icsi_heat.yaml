@@ -1,0 +1,21 @@
+# @package _global_
+
+experiment: "sparselsmix-3-0_heat-speaker-continuity_oraclediar_beamdecode"
+
+model:
+  whisper_model: "openai/whisper-large-v3-turbo"
+  reinit_from: "${oc.env:PRETRAINED_MODEL_PATH}"
+data:
+  eval_cutsets: ${oc.env:MANIFEST_DIR}/sparselibrimix_mix_noisy_sparse_3_0_sc_test_cutset.jsonl.gz
+  audio_path_prefix: ${oc.env:AUDIO_PATH_PREFIX}
+  audio_path_prefix_replacement: ${oc.env:AUDIO_PATH_PREFIX_REPLACEMENT}
+  use_heat_diar: true
+  oracle_heat_assignment_method: "speaker-continuity"
+training:
+  decode_only: true
+  eval_metrics_list: [ "tcorc_wer" ]
+  generation_num_beams: 5
+decoding:
+  decoding_ctc_weight: 0.2
+  condition_on_prev: false
+  length_penalty: 0.1
