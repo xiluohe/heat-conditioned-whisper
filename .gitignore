@@ -182,5 +182,6 @@ data/manifests
 data/nsf
 data
 !scripts/data
+!src/data
 
 pretrained_models
